@@ -297,12 +297,12 @@ export function CheckOutForm() {
           )}
           {step === 5 && <Step5 data={getValues()} />}
 
-          <div className="d-flex justify-content-between mt-4">
+          <div className="d-flex justify-content-end mt-4">
             {step > 1 && (
               <button
                 type="button"
                 onClick={back}
-                className="btn btn-secondary"
+                className="btn btn-secondary me-3"
               >
                 Back
               </button>
