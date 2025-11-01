@@ -24,12 +24,13 @@ const paymentSchema = z.object({
   method: z.literal(["cod", "card"], {
     error: "Select a payment method",
   }),
-  cardNumber: z.coerce
-    .number()
-    .optional()
-    .refine((val) => !val || /^\d{16}$/.test(val), {
-      error: "Card number must be 16 digits",
-    }),
+  cardNumber: z
+    .string()
+    .regex(
+      /^\d{4}\s\d{4}\s\d{4}\s\d{4}$/,
+      "Card number must be 16 digits with 3 spaces between"
+    )
+    .optional(),
   expiry: z
     .string()
     .optional()
@@ -62,8 +63,8 @@ const formSchema = z
     (data) =>
       data.method === "cod" || (data.cardNumber && data.expiry && data.cvc),
     {
-      message: "Card details are required for card payment",
-      path: ["cardNumber"],
+      message: "All card details are required for card payment",
+      path: ["cvc"],
     }
   );
 
@@ -155,7 +156,7 @@ const Step3 = ({ register, errors }) => (
   </div>
 );
 
-const Step4 = ({ register, watch, errors }) => {
+const Step4 = ({ register, watch, errors, setValue }) => {
   const method = watch("method");
   return (
     <div>
@@ -197,10 +198,18 @@ const Step4 = ({ register, watch, errors }) => {
           <div className="mb-3">
             <label className="form-label">Card Number</label>
             <input
-              type="number"
               inputMode="numeric"
-              {...register("cardNumber")}
+              {...register("cardNumber", {
+                onChange: (e) => {
+                  const input = e.target.value;
+                  const noSpace = input.replace(/\s+/g, "");
+                  const formatted =
+                    noSpace.match(/.{1,4}/g)?.join(" ") || input;
+                  setValue("cardNumber", formatted);
+                },
+              })}
               className="form-control"
+              placeholder="1234 1234 1234 1234"
             />
             {errors.cardNumber && (
               <small className="text-danger">{errors.cardNumber.message}</small>
@@ -266,6 +275,7 @@ export function CheckOutForm() {
     formState: { errors },
     trigger,
     getValues,
+    setValue,
   } = useForm({
     resolver: zodResolver(formSchema),
     mode: "onTouched",
@@ -312,7 +322,12 @@ export function CheckOutForm() {
           {step === 2 && <Step2 register={register} errors={errors} />}
           {step === 3 && <Step3 register={register} errors={errors} />}
           {step === 4 && (
-            <Step4 register={register} watch={watch} errors={errors} />
+            <Step4
+              register={register}
+              watch={watch}
+              errors={errors}
+              setValue={setValue}
+            />
           )}
           {step === 5 && <Step5 data={getValues()} />}
 
