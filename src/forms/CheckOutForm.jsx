@@ -33,10 +33,8 @@ const paymentSchema = z.object({
     .optional(),
   expiry: z
     .string()
-    .optional()
-    .refine((val) => !val || /^\d{2}\/\d{2}$/.test(val), {
-      error: "Use MM/YY format",
-    }),
+    .regex(/^(0[1-9]|1[0-2])\s\/\s\d{2}$/, "Use MM/YY format")
+    .optional(),
   cvc: z.coerce
     .number()
     .optional()
@@ -156,8 +154,7 @@ const Step3 = ({ register, errors }) => (
   </div>
 );
 
-const Step4 = ({ register, watch, errors, setValue }) => {
-  console.log("step 4 re-rendered!");
+const Step4 = ({ register, watch, errors, setValue, trigger }) => {
   const method = watch("method");
   return (
     <div>
@@ -231,9 +228,22 @@ const Step4 = ({ register, watch, errors, setValue }) => {
             <div className="col-md-6 mb-3">
               <label className="form-label">Expiry Date</label>
               <input
-                {...register("expiry")}
+                {...register("expiry", {
+                  onChange: (e) => {
+                    let values = e.target.value.replace(/\D/g, ""); // keep only digits
+
+                    if (values.length > 2) {
+                      values = `${values.slice(0, 2)} / ${values.slice(2, 4)}`;
+                    }
+
+                    setValue("expiry", values);
+                  },
+                  onBlur: () => {
+                    trigger("expiry"); // validate on blur instead of on change as in card number
+                  },
+                })}
                 className="form-control"
-                placeholder="MM/YY"
+                placeholder="MM / YY"
               />
               {errors.expiry && (
                 <small className="text-danger">{errors.expiry.message}</small>
@@ -290,7 +300,7 @@ export function CheckOutForm() {
     setValue,
   } = useForm({
     resolver: zodResolver(formSchema),
-    mode: "onTouched",
+    mode: "onSubmit", // validate in end (default in RHF). However, validations are manually triggered per step in next()
   });
   console.log("errors", errors);
 
@@ -339,6 +349,7 @@ export function CheckOutForm() {
               watch={watch}
               errors={errors}
               setValue={setValue}
+              trigger={trigger}
             />
           )}
           {step === 5 && <Step5 data={getValues()} />}
