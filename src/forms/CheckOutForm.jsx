@@ -157,6 +157,7 @@ const Step3 = ({ register, errors }) => (
 );
 
 const Step4 = ({ register, watch, errors, setValue }) => {
+  console.log("step 4 re-rendered!");
   const method = watch("method");
   return (
     <div>
@@ -201,11 +202,22 @@ const Step4 = ({ register, watch, errors, setValue }) => {
               inputMode="numeric"
               {...register("cardNumber", {
                 onChange: (e) => {
-                  const input = e.target.value;
-                  const noSpace = input.replace(/\s+/g, "");
-                  const formatted =
-                    noSpace.match(/.{1,4}/g)?.join(" ") || input;
-                  setValue("cardNumber", formatted);
+                  const digits = e.target.value;
+                  let noSpaceDigits = digits.replace(/\s+/g, "");
+                  const areAllDigits = /^\d+$/.test(noSpaceDigits);
+
+                  if (!areAllDigits || noSpaceDigits.length > 16) {
+                    noSpaceDigits = noSpaceDigits.substring(
+                      0,
+                      noSpaceDigits.length - 1 // eliminate the last entered character to simulate that user's input was rejected
+                    );
+                  }
+
+                  setValue("cardNumber", groupToFour(noSpaceDigits));
+
+                  function groupToFour(digits) {
+                    return digits.match(/.{1,4}/g)?.join(" ") || digits;
+                  }
                 },
               })}
               className="form-control"
