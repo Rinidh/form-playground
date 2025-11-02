@@ -134,7 +134,6 @@ const Step3 = ({ register, errors }) => (
       <div className="col-md-3 mb-3">
         <label className="form-label">ZIP</label>
         <input
-          type="number"
           inputMode="numeric"
           {...register("zip")}
           className="form-control"
@@ -252,7 +251,6 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
             <div className="col-md-6 mb-3">
               <label className="form-label">CVC</label>
               <input
-                type="number"
                 inputMode="numeric"
                 {...register("cvc")}
                 className="form-control"
