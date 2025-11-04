@@ -3,6 +3,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import pureGlowCream from "../../assets/pure-glow-cream.jpeg";
 import formSchema from "./schema";
+import { postData } from "./api";
 
 // Components for each step
 const Step1 = () => (
@@ -249,11 +250,7 @@ export function CheckOutForm() {
 
   const [step, setStep] = useState(1);
 
-  const onSubmit = (data) => {
-    console.log("Final submission:", data);
-    alert("Order submitted successfully!");
-  };
-
+  const onSubmit = async (data) => postData(data);
   const onError = (errors) => console.error("Submit errors:", errors);
 
   const next = async () => {
