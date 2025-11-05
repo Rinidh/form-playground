@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import pureGlowCream from "../../assets/pure-glow-cream.jpeg";
 import formSchema from "./schema";
 import { postData } from "./api";
+import { PhoneInput } from "./IntPhoneInput";
 
 // Components for each step
 const Step1 = () => (
@@ -22,7 +23,7 @@ const Step1 = () => (
   </div>
 );
 
-const Step2 = ({ register, errors }) => (
+const Step2 = ({ register, errors, control }) => (
   <div>
     <div className="mb-3">
       <label className="form-label">Name</label>
@@ -45,7 +46,7 @@ const Step2 = ({ register, errors }) => (
     </div>
     <div className="mb-3">
       <label className="form-label">Phone</label>
-      <input type="tel" {...register("phone")} className="form-control" />
+      <PhoneInput control={control} className="form-control" />
       {errors.phone && (
         <small className="text-danger">{errors.phone.message}</small>
       )}
@@ -242,6 +243,7 @@ export function CheckOutForm() {
     trigger,
     getValues,
     setValue,
+    control,
   } = useForm({
     resolver: zodResolver(formSchema),
     mode: "onSubmit", // validate in end (default in RHF). However, validations are manually triggered per step in next()
@@ -281,7 +283,9 @@ export function CheckOutForm() {
           <h3 className="mb-3 text-center">Checkout - Step {step}/5</h3>
 
           {step === 1 && <Step1 />}
-          {step === 2 && <Step2 register={register} errors={errors} />}
+          {step === 2 && (
+            <Step2 register={register} errors={errors} control={control} />
+          )}
           {step === 3 && <Step3 register={register} errors={errors} />}
           {step === 4 && (
             <Step4
