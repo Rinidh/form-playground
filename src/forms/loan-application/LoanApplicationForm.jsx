@@ -3,7 +3,6 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loanSchema } from "./schema";
 
-// ------------------ Component ------------------
 export const LoanApplicationForm = () => {
   const {
     register,
@@ -11,21 +10,23 @@ export const LoanApplicationForm = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: zodResolver(loanSchema),
     mode: "onBlur",
   });
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
+    console.log("Submitted ✅:", data);
   };
+  const onError = (err) => console.error("Error ❌:", err);
 
   const loanPurpose = watch("loanPurpose");
 
   return (
     <div className="container mt-4">
       <h3 className="mb-4">Loan Application Form</h3>
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <div className="row g-3">
           {/* Loan Amount & Income */}
           <div className="col-md-6">
@@ -76,25 +77,30 @@ export const LoanApplicationForm = () => {
           <div className="col-md-12">
             <label className="form-label">Purpose of Loan</label>
             <div>
-              {["Education", "Business", "Home Improvement", "Other"].map(
-                (purpose) => (
-                  <div className="form-check form-check-inline" key={purpose}>
-                    <input
-                      type="radio"
-                      value={purpose}
-                      {...register("loanPurpose")}
-                      id={`loan-${purpose}`}
-                      className="form-check-input"
-                    />
-                    <label
-                      htmlFor={`loan-${purpose}`}
-                      className="form-check-label"
-                    >
-                      {purpose}
-                    </label>
-                  </div>
-                )
-              )}
+              {[
+                "Education",
+                "Business",
+                "Home Improvement",
+                "House Buying",
+                "Investment",
+                "Other",
+              ].map((purpose) => (
+                <div className="form-check form-check-inline" key={purpose}>
+                  <input
+                    type="radio"
+                    value={purpose}
+                    {...register("loanPurpose")}
+                    id={`loan-${purpose}`}
+                    className="form-check-input"
+                  />
+                  <label
+                    htmlFor={`loan-${purpose}`}
+                    className="form-check-label"
+                  >
+                    {purpose}
+                  </label>
+                </div>
+              ))}
               {errors.loanPurpose && (
                 <div className="text-danger small">
                   {errors.loanPurpose.message}
@@ -279,7 +285,10 @@ export const LoanApplicationForm = () => {
             <label className="form-label">Years of Experience</label>
             <input
               type="number"
-              {...register("yearsExperience", { valueAsNumber: true })}
+              {...register("yearsExperience", {
+                valueAsNumber: true,
+                onBlur: (num) => setValue(Math.floor(num)),
+              })}
               className={`form-control ${
                 errors.yearsExperience ? "is-invalid" : ""
               }`}

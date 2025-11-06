@@ -1,10 +1,10 @@
 import React from "react";
-import { CheckOutForm } from "./forms/checkout-form/CheckOutForm";
+import { ExptForm } from "./forms/ExptForm";
 
 const App = () => {
   return (
     <div>
-      <CheckOutForm />
+      <ExptForm />
     </div>
   );
 };

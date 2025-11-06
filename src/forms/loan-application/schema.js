@@ -15,12 +15,25 @@ export const loanSchema = z.object({
         ["application/pdf", "image/png", "image/jpeg"].includes(files[0]?.type),
       "Only PDF, PNG, or JPEG formats are allowed"
     ),
-  loanPurpose: z.string().min(1, "Select a loan purpose"),
+  loanPurpose: z.literal(
+    [
+      "Education",
+      "Business",
+      "Home Improvement",
+      "House Buying",
+      "Investment",
+      "Other",
+    ],
+    "Select a loan purpose"
+  ),
   otherPurpose: z.string().optional(),
   title: z.string().min(1, "Please enter your title e.g. Mr., Mrs., Dr. etc."),
   firstName: z.string().min(2, "Too short"),
   lastName: z.string().min(2, "Too short"),
-  maritalStatus: z.string().min(1, "Select marital status"),
+  maritalStatus: z.literal(
+    ["Single", "Married", "Divorced"],
+    "Select marital status"
+  ),
   email: z.email("Invalid email"),
   phone: z
     .string()
