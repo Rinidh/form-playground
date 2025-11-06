@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import pureGlowCream from "../../assets/pure-glow-cream.jpeg";
 import formSchema from "./schema";
 import { postData } from "./api";
-import { PhoneInput } from "./IntPhoneInput";
+import { PhoneInput } from "../../components/IntPhoneInput";
 
 // Components for each step
 const Step1 = () => (

@@ -1,10 +1,10 @@
 import React from "react";
-import { ExptForm } from "./forms/ExptForm";
+import { LoanApplicationForm } from "./forms/loan-application/LoanApplicationForm";
 
 const App = () => {
   return (
     <div>
-      <ExptForm />
+      <LoanApplicationForm />
     </div>
   );
 };

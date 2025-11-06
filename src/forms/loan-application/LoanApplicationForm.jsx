@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PhoneInput } from "../../components/IntPhoneInput";
 import { loanSchema } from "./schema";
 
 export const LoanApplicationForm = () => {
@@ -188,9 +189,8 @@ export const LoanApplicationForm = () => {
           </div>
           <div className="col-md-6">
             <label className="form-label">Phone</label>
-            <input
-              type="tel"
-              {...register("phone")}
+            <PhoneInput
+              control={control}
               className={`form-control ${errors.phone ? "is-invalid" : ""}`}
             />
             <div className="invalid-feedback">{errors.phone?.message}</div>
