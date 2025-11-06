@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PhoneInput } from "../../components/IntPhoneInput";
 import { loanSchema } from "./schema";
 
 export const LoanApplicationForm = () => {
@@ -11,6 +12,7 @@ export const LoanApplicationForm = () => {
     watch,
     formState: { errors },
     setValue,
+    trigger,
   } = useForm({
     resolver: zodResolver(loanSchema),
     mode: "onBlur",
@@ -22,6 +24,9 @@ export const LoanApplicationForm = () => {
   const onError = (err) => console.error("Error ❌:", err);
 
   const loanPurpose = watch("loanPurpose");
+
+  console.log("file", watch("bankStatement"));
+  console.log("errors", errors);
 
   return (
     <div className="container mt-4">
@@ -60,16 +65,31 @@ export const LoanApplicationForm = () => {
             <label className="form-label">
               Bank Statement (PDF, PNG, JPEG)
             </label>
-            <input
-              type="file"
-              {...register("bankStatement")}
-              accept=".pdf,.png,.jpg,.jpeg"
-              className={`form-control ${
-                errors.bankStatement ? "is-invalid" : ""
-              }`}
-            />
-            <div className="invalid-feedback">
-              {errors.bankStatement?.message}
+            <div className="input-group has-validation">
+              <input
+                type="file"
+                {...register("bankStatement", {
+                  onChange: () => trigger("bankStatement"),
+                })}
+                accept=".pdf,.png,.jpg,.jpeg"
+                className={`form-control ${
+                  errors.bankStatement ? "is-invalid" : ""
+                }`}
+              />
+              <button
+                type="button"
+                className="btn btn-outline-secondary"
+                onClick={() => {
+                  setValue("bankStatement", null);
+                  trigger("bankStatement"); // re-trigger validation to show "required" error message when file is cleared
+                }}
+              >
+                Clear
+              </button>
+              {/* placed error message inside input-group */}
+              <div className="invalid-feedback">
+                {errors.bankStatement?.message}
+              </div>
             </div>
           </div>
 
@@ -188,10 +208,9 @@ export const LoanApplicationForm = () => {
           </div>
           <div className="col-md-6">
             <label className="form-label">Phone</label>
-            <input
-              type="tel"
-              {...register("phone")}
-              className={`form-control ${errors.phone ? "is-invalid" : ""}`}
+            <PhoneInput
+              control={control}
+              className={`${errors.phone ? "is-invalid" : ""}`}
             />
             <div className="invalid-feedback">{errors.phone?.message}</div>
           </div>
