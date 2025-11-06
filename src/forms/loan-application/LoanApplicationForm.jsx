@@ -25,6 +25,9 @@ export const LoanApplicationForm = () => {
 
   const loanPurpose = watch("loanPurpose");
 
+  console.log("file", watch("bankStatement"));
+  console.log("errors", errors);
+
   return (
     <div className="container mt-4">
       <h3 className="mb-4">Loan Application Form</h3>
@@ -62,23 +65,31 @@ export const LoanApplicationForm = () => {
             <label className="form-label">
               Bank Statement (PDF, PNG, JPEG)
             </label>
-            <div className="input-group">
+            <div className="input-group has-validation">
               <input
                 type="file"
-                {...register("bankStatement", {onChange: () => trigger("bankStatement")})}
+                {...register("bankStatement", {
+                  onChange: () => trigger("bankStatement"),
+                })}
                 accept=".pdf,.png,.jpg,.jpeg"
-                className={`form-control ${errors.bankStatement ? "is-invalid" : ""}`}
+                className={`form-control ${
+                  errors.bankStatement ? "is-invalid" : ""
+                }`}
               />
               <button
                 type="button"
                 className="btn btn-outline-secondary"
-                onClick={() => setValue("bankStatement", null)}
+                onClick={() => {
+                  setValue("bankStatement", null);
+                  trigger("bankStatement"); // re-trigger validation to show "required" error message when file is cleared
+                }}
               >
                 Clear
               </button>
-            </div>
-            <div className="invalid-feedback">
-              {errors.bankStatement?.message}
+              {/* placed error message inside input-group */}
+              <div className="invalid-feedback">
+                {errors.bankStatement?.message}
+              </div>
             </div>
           </div>
 
