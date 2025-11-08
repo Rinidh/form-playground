@@ -1,7 +1,13 @@
 import React from "react";
 import { PhoneInput } from "../../components/IntPhoneInput";
 
-export const BankReferences = ({ fields, register, control, append }) => {
+export const BankReferences = ({
+  fields,
+  register,
+  control,
+  append,
+  remove,
+}) => {
   return (
     <div className="col-md-12">
       {fields.map((field, index) => (
@@ -10,6 +16,7 @@ export const BankReferences = ({ fields, register, control, append }) => {
           index={index}
           control={control}
           register={register}
+          remove={remove}
         />
       ))}
       <button
@@ -30,7 +37,7 @@ export const BankReferences = ({ fields, register, control, append }) => {
   );
 };
 
-const BankReference = ({ index, register, control, errors }) => {
+const BankReference = ({ index, register, control, errors, remove }) => {
   const errorFields = errors?.bankReferences?.[index];
 
   return (
@@ -63,7 +70,7 @@ const BankReference = ({ index, register, control, errors }) => {
           {errorFields?.savingsAccount?.message}
         </div>
       </div>
-      <div className="col-md-3">
+      <div className="col-md-2">
         <label>
           Address
           <input
@@ -86,6 +93,16 @@ const BankReference = ({ index, register, control, errors }) => {
         <div className="invalid-feedback">
           {errorFields?.institution?.phone}
         </div>
+      </div>
+
+      <div className="col-md-1 d-flex align-items-center">
+        <button
+          type="button"
+          className="btn btn-light"
+          onClick={() => remove(index)}
+        >
+          ❌
+        </button>
       </div>
     </div>
   );

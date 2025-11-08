@@ -24,7 +24,7 @@ export const LoanApplicationForm = () => {
     },
   });
 
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "bankReferences",
   });
@@ -386,6 +386,7 @@ export const LoanApplicationForm = () => {
               register={register}
               control={control}
               append={append}
+              remove={remove}
             />
           </div>
 
