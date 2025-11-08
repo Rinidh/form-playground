@@ -20,11 +20,16 @@ const BankReference = ({ index, register, control, errors }) => {
   const errorFields = errors?.bankReferences?.[index];
 
   return (
-    <div>
+    <div className="row">
       <div className="col-md-3">
         <label>
           Institution Name
-          <input {...register(`bankReferences.${index}.institution`)} />
+          <input
+            {...register(`bankReferences.${index}.institution`)}
+            className={`form-control ${
+              errorFields?.institution ? "is-invalid" : ""
+            }`}
+          />
         </label>
         <div className="invalid-feedback">
           {errorFields?.institution?.message}
@@ -33,7 +38,12 @@ const BankReference = ({ index, register, control, errors }) => {
       <div className="col-md-3">
         <label>
           Savings Account Name
-          <input {...register(`bankReferences.${index}.savingsAccount`)} />
+          <input
+            {...register(`bankReferences.${index}.savingsAccount`)}
+            className={`form-control ${
+              errorFields?.savingsAccount ? "is-invalid" : ""
+            }`}
+          />
         </label>
         <div className="invalid-feedback">
           {errorFields?.savingsAccount?.message}
@@ -42,7 +52,12 @@ const BankReference = ({ index, register, control, errors }) => {
       <div className="col-md-3">
         <label>
           Address
-          <input {...register(`bankReferences.${index}.address`)} />
+          <input
+            {...register(`bankReferences.${index}.address`)}
+            className={`form-control ${
+              errorFields?.address ? "is-invalid" : ""
+            }`}
+          />
         </label>
         <div className="invalid-feedback">{errorFields?.address?.message}</div>
       </div>
@@ -51,7 +66,7 @@ const BankReference = ({ index, register, control, errors }) => {
           Contact
           <PhoneInput
             control={control}
-            className={errorFields?.phone ? "is-invalid" : ""}
+            className={`form-control ${errorFields?.phone ? "is-invalid" : ""}`}
           />
         </label>
         <div className="invalid-feedback">

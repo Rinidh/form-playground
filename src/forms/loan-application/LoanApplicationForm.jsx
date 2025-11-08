@@ -221,7 +221,7 @@ export const LoanApplicationForm = () => {
             <label className="form-label">Phone</label>
             <PhoneInput
               control={control}
-              className={`${errors.phone ? "is-invalid" : ""}`}
+              className={`form-control ${errors.phone ? "is-invalid" : ""}`}
             />
             <div className="invalid-feedback">{errors.phone?.message}</div>
           </div>

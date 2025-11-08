@@ -20,6 +20,7 @@ export const PhoneInput = ({ control, className = "phone-input" }) => {
               defaultCountry="UG"
               placeholder="Enter phone number of any country"
               className={className}
+              style={{ display: "flex" }} // to align the flag/country code & phone number input horizontally in a line
             />
             {fieldState.error?.phone && (
               <p>{fieldState.error?.phone.message}</p>
