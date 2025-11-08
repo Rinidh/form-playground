@@ -19,12 +19,12 @@ export const LoanApplicationForm = () => {
     mode: "onBlur",
     defaultValues: {
       bankReferences: [
-        { institution: "d", savingsAccount: "s", address: "", phone: "" },
+        { institution: "", savingsAccount: "", address: "", phone: "" }, // empty defualts for user to fill in
       ],
     },
   });
 
-  const { fields } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: "bankReferences",
   });
@@ -36,8 +36,8 @@ export const LoanApplicationForm = () => {
 
   const loanPurpose = watch("loanPurpose");
 
-  console.log("file", watch("bankStatement"));
-  console.log("errors", errors);
+  // console.log("file", watch("bankStatement"));
+  // console.log("errors", errors);
 
   return (
     <div className="container mt-4">
@@ -385,6 +385,7 @@ export const LoanApplicationForm = () => {
               fields={fields}
               register={register}
               control={control}
+              append={append}
             />
           </div>
 

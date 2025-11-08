@@ -1,7 +1,7 @@
 import React from "react";
 import { PhoneInput } from "../../components/IntPhoneInput";
 
-export const BankReferences = ({ fields, register, control }) => {
+export const BankReferences = ({ fields, register, control, append }) => {
   return (
     <div className="col-md-12">
       {fields.map((field, index) => (
@@ -12,6 +12,20 @@ export const BankReferences = ({ fields, register, control }) => {
           register={register}
         />
       ))}
+      <button
+        type="button"
+        className="btn btn-secondary mt-2"
+        onClick={() =>
+          append({
+            institution: "",
+            savingsAccount: "",
+            address: "",
+            phone: "",
+          })
+        }
+      >
+        Add Referee Bank
+      </button>
     </div>
   );
 };
