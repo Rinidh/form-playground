@@ -35,13 +35,16 @@ export const loanSchema = z.object({
     "Select marital status"
   ),
   email: z.email("Invalid email"),
-  phone: z
-    .string()
-    .trim()
-    .regex(
-      /^\+?[0-9\s\-()]{5,20}$/, // smallest number with min 4 phone number digits + 1 country code digit. Largest number with 17 phone number digits + 3 country code digits
-      "Please enter a valid phone number including country code"
-    ),
+  phone: z.preprocess(
+    (val) => val ?? "", // nullish coalescing is same as (val) => (val === null || val === undefined) ? "" : val
+    z
+      .string()
+      .trim()
+      .regex(
+        /^\+?[0-9\s\-()]{5,20}$/, // smallest number with min 4 phone number digits + 1 country code digit. Largest number with 17 phone number digits + 3 country code digits
+        "Please enter a valid phone number including country code"
+      )
+  ),
   street: z.string().min(1, "Required"),
   city: z.string().min(1, "Required"),
   state: z.string().min(1, "Required"),
@@ -60,4 +63,23 @@ export const loanSchema = z.object({
   monthlyRent: z.number({ error: "Enter a valid amount" }).min(0),
   downPayment: z.number({ error: "Enter a valid amount" }).min(0),
   comments: z.string().optional(),
+  bankReferences: z.array(
+    z.object({
+      institution: z.string().optional(),
+      savingsAccount: z.string().optional(),
+      address: z.string().optional(),
+      phone: z
+        .preprocess(
+          (val) => val ?? "",
+          z
+            .string()
+            .trim()
+            .regex(
+              /^\+?[0-9\s\-()]{5,20}$/,
+              "Please enter a valid phone number including country code"
+            )
+        )
+        .optional(),
+    })
+  ),
 });
