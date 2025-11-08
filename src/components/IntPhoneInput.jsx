@@ -13,14 +13,14 @@ export const PhoneInput = ({ control, className = "phone-input" }) => {
         control={control}
         rules={{ required: "Phone number is required" }}
         render={({ field, fieldState }) => (
-          <div className="max-w-sm mx-auto">
+          <div>
             <PhoneNumberInput
               {...field}
               international // to enforce international format (of including +... code prior to number)
               defaultCountry="UG"
               placeholder="Enter phone number of any country"
               className={className}
-              style={{ display: "flex" }} // to align the flag/country code & phone number input horizontally in a line
+              style={{ display: "flex" }} // to align the flag/country select & phone number input horizontally in a line
             />
             {fieldState.error?.phone && (
               <p>{fieldState.error?.phone.message}</p>

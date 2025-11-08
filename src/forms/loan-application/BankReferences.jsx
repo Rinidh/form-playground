@@ -83,13 +83,11 @@ const BankReference = ({ index, register, control, errors, remove }) => {
         <div className="invalid-feedback">{errorFields?.address?.message}</div>
       </div>
       <div className="col-md-3">
-        <label>
-          Contact
-          <PhoneInput
-            control={control}
-            className={`form-control ${errorFields?.phone ? "is-invalid" : ""}`}
-          />
-        </label>
+        <label className="form-label">Contact</label>
+        <PhoneInput
+          control={control}
+          className={`form-control ${errorFields?.phone ? "is-invalid" : ""}`}
+        />
         <div className="invalid-feedback">
           {errorFields?.institution?.phone}
         </div>
