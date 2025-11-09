@@ -87,7 +87,7 @@ const BankReference = ({
       </div>
       <div className="col-md-2">
         <label className="form-label">Address</label>
-        <input
+        <textarea
           {...register(`bankReferences.${index}.address`)}
           className={`form-control ${errorFields?.address ? "is-invalid" : ""}`}
         />
