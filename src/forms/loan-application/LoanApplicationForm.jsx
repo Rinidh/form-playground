@@ -128,7 +128,7 @@ export const LoanApplicationForm = () => {
 
           {/* Loan Purpose */}
           <fieldset className="col-md-12" aria-describedby="loanPurpose-error">
-            <legend className="form-label">Purpose of Loan</legend>
+            <legend className="form-label fs-6">Purpose of Loan</legend>
             {[
               "Education",
               "Business",
@@ -227,7 +227,7 @@ export const LoanApplicationForm = () => {
             className="col-md-12"
             aria-describedby="maritalStatus-error"
           >
-            <legend className="form-label">Marital Status</legend>
+            <legend className="form-label fs-6">Marital Status</legend>
             {["Single", "Married", "Divorced"].map((status) => (
               <div className="form-check form-check-inline" key={status}>
                 <input
@@ -528,7 +528,7 @@ export const LoanApplicationForm = () => {
 
           {/* Consent and Declaration */}
           <fieldset className="col-md-6">
-            <legend className="h4">Consent</legend>
+            <legend className="h5">Consent</legend>
 
             <div className="form-check">
               <div className="d-flex align-items-start">
@@ -566,7 +566,7 @@ export const LoanApplicationForm = () => {
           </fieldset>
 
           <fieldset className="col-md-6">
-            <legend className="h4">Declaration</legend>
+            <legend className="h5">Declaration</legend>
             <div className="form-check">
               <div className="d-flex align-items-start">
                 <input
