@@ -69,7 +69,11 @@ const BankReference = ({ index, register, control, errors, remove }) => {
         </div>
       </div>
       <div className="col-md-3">
-        <PhoneInput name={`bankReferences.${index}.phone`} control={control} />
+        <PhoneInput
+          name={`bankReferences.${index}.phone`}
+          control={control}
+          errors={errorFields}
+        />
       </div>
       <div className="col-md-2">
         <label className="form-label">Address</label>
