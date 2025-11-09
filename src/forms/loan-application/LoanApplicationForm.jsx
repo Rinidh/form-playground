@@ -394,8 +394,8 @@ export const LoanApplicationForm = () => {
             />
           </div>
 
-          {/* Consent */}
-          <div className="col-md-12">
+          {/* Consent and Declaration */}
+          <div className="col-md-6">
             <h4>Consent</h4>
 
             <div className="form-check">
@@ -427,6 +427,31 @@ export const LoanApplicationForm = () => {
               {/* `.invalid-feedback` needs to be at same level of nesting as `.form-check-input`, but nesting it inside `.d-flex` above doesn't position it below the text hence applied `.form-check` as well */}
               <div className="invalid-feedback d-block w-100">
                 {errors.consent?.message}
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <h4>Declaration</h4>
+
+            <div className="form-check">
+              <div className="d-flex align-items-start">
+                <input
+                  type="checkbox"
+                  id="declaration"
+                  className={`form-check-input me-2 ${
+                    errors.declaration ? "is-invalid" : ""
+                  }`}
+                  {...register("declaration", {
+                    onChange: () => trigger("declaration"),
+                  })}
+                />
+                <label htmlFor="declaration" className="form-check-label">
+                  I hereby agree that the information given is true, accurate
+                  and complete as of the date of this application submission.
+                </label>
+              </div>
+              <div className="invalid-feedback d-block w-100">
+                {errors.declaration?.message}
               </div>
             </div>
           </div>
