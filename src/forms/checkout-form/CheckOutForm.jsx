@@ -46,7 +46,7 @@ const Step2 = ({ register, errors, control }) => (
     </div>
     <div className="mb-3">
       <label className="form-label">Phone</label>
-      <PhoneInput control={control} className="form-control" />
+      <PhoneInput name={"phone"} control={control} errors={errors} />
       {errors.phone && (
         <small className="text-danger">{errors.phone.message}</small>
       )}
