@@ -6,7 +6,7 @@ export const LoanPurposeFieldset = ({ control, register, errors }) => {
   const loanPurpose = useWatch({ control, name: "loanPurpose" });
 
   return (
-    <fieldset className="col-md-12" aria-describedby="loanPurpose-error">
+    <fieldset className="col-md-12 mt-2" aria-describedby="loanPurpose-error">
       <legend className="form-label fs-6">Purpose of Loan</legend>
       {["Education", "Business", "Home Improvement", "House Buying", "Investment", "Other"].map(
         (purpose) => (
