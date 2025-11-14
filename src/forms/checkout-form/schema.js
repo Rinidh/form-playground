@@ -9,9 +9,7 @@ const personalSchema = z.object({
 const shippingSchema = z.object({
   address: z.string().min(5, "Address is required"),
   city: z.string().min(2, "City is required"),
-  zip: z.coerce
-    .number("Please enter a number ZIP code")
-    .min(3, "ZIP code required"),
+  zip: z.string("Please enter a valid ZIP code").min(3, "ZIP code required"),
   state: z.string().min(2, "State is required"),
 });
 
@@ -32,12 +30,12 @@ const paymentSchema = z.object({
     .regex(/^(0[1-9]|1[0-2])\s\/\s\d{2}$/, "Use MM/YY format")
     .or(z.literal("")) // allow empty string as well
     .optional(),
-  cvc: z.coerce
-    .number()
-    .optional()
-    .refine((val) => !val || /^\d{3,4}$/.test(val), {
+  cvc: z
+    .string()
+    .refine((val) => val === "" || /^\d{3,4}$/.test(val), {
       error: "Invalid CVC",
-    }),
+    })
+    .optional(),
   sameBillingShipping: z.boolean(),
   address: z.string().optional(),
   state: z.string().optional(),

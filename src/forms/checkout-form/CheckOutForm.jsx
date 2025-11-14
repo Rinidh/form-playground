@@ -293,19 +293,19 @@ export function CheckOutForm() {
       phone: "",
       address: "",
       city: "",
-      zip: 0,
+      zip: "",
       state: "",
       method: "",
       cardNumber: "",
       expiry: "",
-      cvc: 0,
+      cvc: "",
       sameBillingShipping: "",
       billingAddress: "",
       billingState: "",
     },
   });
-  // console.log("errors", errors);
-  console.log("watch", watch());
+  console.log("errors", errors);
+  // console.log("watch", watch());
 
   const [step, setStep] = useState(1);
 
