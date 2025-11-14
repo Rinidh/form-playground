@@ -287,8 +287,25 @@ export function CheckOutForm() {
   } = useForm({
     resolver: zodResolver(formSchema),
     mode: "onSubmit", // validate in end (default in RHF). However, validations are manually triggered per step in next()
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      zip: 0,
+      state: "",
+      method: "",
+      cardNumber: "",
+      expiry: "",
+      cvc: 0,
+      sameBillingShipping: "",
+      billingAddress: "",
+      billingState: "",
+    },
   });
-  console.log("errors", errors);
+  // console.log("errors", errors);
+  console.log("watch", watch());
 
   const [step, setStep] = useState(1);
 
@@ -312,6 +329,7 @@ export function CheckOutForm() {
         break;
     }
     if (isValid) setStep((s) => s + 1);
+    console.log("isValid", isValid);
   };
 
   const back = () => setStep((s) => s - 1);
