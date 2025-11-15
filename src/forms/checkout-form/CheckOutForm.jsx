@@ -299,7 +299,7 @@ export function CheckOutForm() {
       cardNumber: "",
       expiry: "",
       cvc: "",
-      sameBillingShipping: "",
+      sameBillingShipping: true,
       billingAddress: "",
       billingState: "",
     },
@@ -325,11 +325,18 @@ export function CheckOutForm() {
         isValid = await trigger(["address", "city", "zip", "state"]);
         break;
       case 4:
-        isValid = await trigger(["method", "cardNumber", "expiry", "cvc"]);
+        isValid = await trigger([
+          "method",
+          "cardNumber",
+          "expiry",
+          "cvc",
+          "sameBillingShipping",
+          "billingAddress",
+          "billingState",
+        ]);
         break;
     }
     if (isValid) setStep((s) => s + 1);
-    console.log("isValid", isValid);
   };
 
   const back = () => setStep((s) => s - 1);
