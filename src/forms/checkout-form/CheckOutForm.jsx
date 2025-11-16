@@ -1,3 +1,4 @@
+// CheckoutForm.jsx
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,94 +9,174 @@ import { PhoneInput } from "../../components/IntPhoneInput";
 
 // Components for each step
 const Step1 = () => (
-  <div className="text-center">
+  <fieldset className="text-center">
+    <legend className="visually-hidden">Product Information</legend>
+
     <img
       src={pureGlowCream}
       className="img-thumbnail"
       style={{ height: "50vh" }}
       alt="Pure Glow Cream"
     />
+
     <h4>Pure Glow Cream</h4>
     <p className="text-muted">
       A skin rejuvenating cream for radiant, glowing skin.
     </p>
     <h5>Price: UGX 115,000</h5>
-  </div>
+  </fieldset>
 );
 
 const Step2 = ({ register, errors, control }) => (
-  <div>
+  <fieldset>
+    <legend>Personal Information</legend>
+
+    {/* Name */}
     <div className="mb-3">
-      <label className="form-label">Name</label>
-      <input {...register("name")} className="form-control" />
+      <label className="form-label" htmlFor="name">
+        Name
+      </label>
+      <input
+        id="name"
+        {...register("name")}
+        className="form-control"
+        aria-invalid={!!errors.name}
+        aria-describedby={errors.name ? "name-error" : undefined}
+      />
       {errors.name && (
-        <small className="text-danger">{errors.name.message}</small>
+        <small id="name-error" className="text-danger">
+          {errors.name.message}
+        </small>
       )}
     </div>
+
+    {/* Email */}
     <div className="mb-3">
-      <label className="form-label">Email</label>
+      <label className="form-label" htmlFor="email">
+        Email
+      </label>
       <input
+        id="email"
         type="email"
         inputMode="email"
         {...register("email")}
         className="form-control"
+        aria-invalid={!!errors.email}
+        aria-describedby={errors.email ? "email-error" : undefined}
       />
       {errors.email && (
-        <small className="text-danger">{errors.email.message}</small>
+        <small id="email-error" className="text-danger">
+          {errors.email.message}
+        </small>
       )}
     </div>
+
+    {/* Phone */}
     <div className="mb-3">
-      <PhoneInput name={"phone"} control={control} errors={errors} />
+      <PhoneInput name="phone" control={control} errors={errors} />
     </div>
-  </div>
+  </fieldset>
 );
 
 const Step3 = ({ register, errors }) => (
-  <div>
+  <fieldset>
+    <legend>Shipping Information</legend>
+
+    {/* Address */}
     <div className="mb-3">
-      <label className="form-label">Address</label>
-      <input {...register("address")} className="form-control" />
+      <label className="form-label" htmlFor="address">
+        Address
+      </label>
+      <input
+        id="address"
+        {...register("address")}
+        className="form-control"
+        aria-invalid={!!errors.address}
+        aria-describedby={errors.address ? "address-error" : undefined}
+      />
       {errors.address && (
-        <small className="text-danger">{errors.address.message}</small>
+        <small id="address-error" className="text-danger">
+          {errors.address.message}
+        </small>
       )}
     </div>
+
     <div className="row">
+      {/* City */}
       <div className="col-md-6 mb-3">
-        <label className="form-label">City</label>
-        <input {...register("city")} className="form-control" />
+        <label className="form-label" htmlFor="city">
+          City
+        </label>
+        <input
+          id="city"
+          {...register("city")}
+          className="form-control"
+          aria-invalid={!!errors.city}
+          aria-describedby={errors.city ? "city-error" : undefined}
+        />
         {errors.city && (
-          <small className="text-danger">{errors.city.message}</small>
+          <small id="city-error" className="text-danger">
+            {errors.city.message}
+          </small>
         )}
       </div>
+
+      {/* ZIP */}
       <div className="col-md-3 mb-3">
-        <label className="form-label">ZIP</label>
+        <label className="form-label" htmlFor="zip">
+          ZIP
+        </label>
         <input
+          id="zip"
           inputMode="numeric"
           {...register("zip")}
           className="form-control"
+          aria-invalid={!!errors.zip}
+          aria-describedby={errors.zip ? "zip-error" : undefined}
         />
         {errors.zip && (
-          <small className="text-danger">{errors.zip.message}</small>
+          <small id="zip-error" className="text-danger">
+            {errors.zip.message}
+          </small>
         )}
       </div>
+
+      {/* State */}
       <div className="col-md-3 mb-3">
-        <label className="form-label">State</label>
-        <input {...register("state")} className="form-control" />
+        <label className="form-label" htmlFor="state">
+          State
+        </label>
+        <input
+          id="state"
+          {...register("state")}
+          className="form-control"
+          aria-invalid={!!errors.state}
+          aria-describedby={errors.state ? "state-error" : undefined}
+        />
         {errors.state && (
-          <small className="text-danger">{errors.state.message}</small>
+          <small id="state-error" className="text-danger">
+            {errors.state.message}
+          </small>
         )}
       </div>
     </div>
-  </div>
+  </fieldset>
 );
 
 const Step4 = ({ register, watch, errors, setValue, trigger }) => {
   const fields = watch(["method", "sameBillingShipping"]);
+
   return (
-    <div>
+    <fieldset>
+      <legend>Payment Information</legend>
+
+      {/* Payment Method */}
       <div className="mb-3">
-        <label className="form-label">Payment Method</label>
-        <div>
+        <span id="method-label" className="form-label">
+          Payment Method
+        </span>
+
+        <div role="radiogroup" aria-labelledby="method-label">
           <div className="form-check">
             <input
               {...register("method")}
@@ -103,11 +184,14 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
               value="cod"
               className="form-check-input"
               id="cod"
+              aria-invalid={!!errors.method}
+              aria-describedby={errors.method ? "method-error" : undefined}
             />
             <label className="form-check-label" htmlFor="cod">
               Cash on Delivery
             </label>
           </div>
+
           <div className="form-check">
             <input
               {...register("method")}
@@ -115,22 +199,34 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
               value="card"
               className="form-check-input"
               id="card"
+              aria-invalid={!!errors.method}
+              aria-describedby={errors.method ? "method-error" : undefined}
             />
             <label className="form-check-label" htmlFor="card">
               Pay with Card
             </label>
           </div>
-          {errors.method && (
-            <small className="text-danger">{errors.method.message}</small>
-          )}
         </div>
+
+        {errors.method && (
+          <small id="method-error" className="text-danger">
+            {errors.method.message}
+          </small>
+        )}
       </div>
 
+      {/* Card fields if payment by card you select */}
       {fields[0] === "card" && (
-        <div className="border p-3 rounded bg-light">
+        <fieldset className="border p-3 rounded bg-light">
+          <legend>Card Details</legend>
+
+          {/* Card Number */}
           <div className="mb-3">
-            <label className="form-label">Card Number</label>
+            <label className="form-label" htmlFor="cardNumber">
+              Card Number
+            </label>
             <input
+              id="cardNumber"
               inputMode="numeric"
               {...register("cardNumber", {
                 onChange: (e) => {
@@ -154,18 +250,29 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
               })}
               className="form-control"
               placeholder="1234 1234 1234 1234"
+              aria-invalid={!!errors.cardNumber}
+              aria-describedby={
+                errors.cardNumber ? "cardNumber-error" : undefined
+              }
             />
             {errors.cardNumber && (
-              <small className="text-danger">{errors.cardNumber.message}</small>
+              <small id="cardNumber-error" className="text-danger">
+                {errors.cardNumber.message}
+              </small>
             )}
           </div>
+
+          {/* Expiry + CVC */}
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label className="form-label">Expiry Date</label>
+              <label className="form-label" htmlFor="expiry">
+                Expiry Date
+              </label>
               <input
+                id="expiry"
                 {...register("expiry", {
                   onChange: (e) => {
-                    let values = e.target.value.replace(/\D/g, ""); // keep only digits
+                    let values = e.target.value.replace(/\D/g, "");
 
                     if (values.length > 2) {
                       values = `${values.slice(0, 2)} / ${values.slice(2, 4)}`;
@@ -173,30 +280,41 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
 
                     setValue("expiry", values);
                   },
-                  onBlur: () => {
-                    trigger("expiry"); // validate on blur instead of on change as in card number
-                  },
+                  onBlur: () => trigger("expiry"),
                 })}
                 className="form-control"
                 placeholder="MM / YY"
+                aria-invalid={!!errors.expiry}
+                aria-describedby={errors.expiry ? "expiry-error" : undefined}
               />
               {errors.expiry && (
-                <small className="text-danger">{errors.expiry.message}</small>
+                <small id="expiry-error" className="text-danger">
+                  {errors.expiry.message}
+                </small>
               )}
             </div>
+
             <div className="col-md-6 mb-3">
-              <label className="form-label">CVC</label>
+              <label className="form-label" htmlFor="cvc">
+                CVC
+              </label>
               <input
+                id="cvc"
                 inputMode="numeric"
                 {...register("cvc")}
                 className="form-control"
+                aria-invalid={!!errors.cvc}
+                aria-describedby={errors.cvc ? "cvc-error" : undefined}
               />
               {errors.cvc && (
-                <small className="text-danger">{errors.cvc.message}</small>
+                <small id="cvc-error" className="text-danger">
+                  {errors.cvc.message}
+                </small>
               )}
             </div>
           </div>
 
+          {/* Billing address checkbox */}
           <div className="mb-3">
             <input
               id="sameBillingShippingAddresses"
@@ -204,31 +322,50 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
               defaultChecked
               {...register("sameBillingShipping", { valueAsBoolean: true })}
             />
-            <label htmlFor="sameBillingShippingAddresses">
-              Billing address is same as for shipping
+            <label htmlFor="sameBillingShippingAddresses" className="ms-2">
+              Billing address is same as shipping
             </label>
+
+            {/* Show billing fields */}
             {fields[1] === false && (
-              <div>
+              <div className="mt-3">
+                {/* Billing address */}
                 <div className="mb-3">
-                  <label className="form-label">Billing Address</label>
+                  <label className="form-label" htmlFor="billingAddress">
+                    Billing Address
+                  </label>
                   <input
+                    id="billingAddress"
                     {...register("billingAddress")}
                     className="form-control"
+                    aria-invalid={!!errors.billingAddress}
+                    aria-describedby={
+                      errors.billingAddress ? "billingAddress-error" : undefined
+                    }
                   />
                   {errors.billingAddress && (
-                    <small className="text-danger">
+                    <small id="billingAddress-error" className="text-danger">
                       {errors.billingAddress.message}
                     </small>
                   )}
                 </div>
+
+                {/* Billing state */}
                 <div className="col-md-3 mb-3">
-                  <label className="form-label">Billing State</label>
+                  <label className="form-label" htmlFor="billingState">
+                    Billing State
+                  </label>
                   <input
+                    id="billingState"
                     {...register("billingState")}
                     className="form-control"
+                    aria-invalid={!!errors.billingState}
+                    aria-describedby={
+                      errors.billingState ? "billingState-error" : undefined
+                    }
                   />
                   {errors.billingState && (
-                    <small className="text-danger">
+                    <small id="billingState-error" className="text-danger">
                       {errors.billingState.message}
                     </small>
                   )}
@@ -236,15 +373,16 @@ const Step4 = ({ register, watch, errors, setValue, trigger }) => {
               </div>
             )}
           </div>
-        </div>
+        </fieldset>
       )}
-    </div>
+    </fieldset>
   );
 };
 
 const Step5 = ({ data }) => (
-  <div>
-    <h5>Review Your Order</h5>
+  <fieldset>
+    <legend>Review Your Order</legend>
+
     <ul className="list-group">
       <li className="list-group-item">
         Product: Pure Glow Cream - UGX 115,000
@@ -266,10 +404,10 @@ const Step5 = ({ data }) => (
         </>
       )}
     </ul>
-  </div>
+  </fieldset>
 );
 
-// Main Component:
+// ---------------- Main Component ----------------
 export function CheckOutForm() {
   const {
     register,
@@ -310,16 +448,20 @@ export function CheckOutForm() {
 
   const next = async () => {
     let isValid = false;
+
     switch (step) {
       case 1:
         setStep((s) => s + 1);
         break;
+
       case 2:
         isValid = await trigger(["name", "email", "phone"]);
         break;
+
       case 3:
         isValid = await trigger(["address", "city", "zip", "state"]);
         break;
+
       case 4:
         isValid = await trigger([
           "method",
@@ -332,6 +474,7 @@ export function CheckOutForm() {
         ]);
         break;
     }
+
     if (isValid) setStep((s) => s + 1);
   };
 
@@ -341,7 +484,9 @@ export function CheckOutForm() {
     <div className="container mt-5" style={{ maxWidth: "600px" }}>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <div className="card p-4 shadow-sm">
-          <h3 className="mb-3 text-center">Checkout - Step {step}/5</h3>
+          <h3 className="mb-3 text-center" aria-live="polite">
+            Checkout - Step {step}/5
+          </h3>
 
           {step === 1 && <Step1 />}
           {step === 2 && (
@@ -369,6 +514,7 @@ export function CheckOutForm() {
                 Back
               </button>
             )}
+
             {step < 5 ? (
               <button type="button" onClick={next} className="btn btn-primary">
                 Next
